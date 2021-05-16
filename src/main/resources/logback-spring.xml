@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include
+        resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <!-- Properties resources -->
+    <property resource="application.properties" />
+    <!-- Name of microservice -->
+    <property name="springAppName"
+        value="${spring.application.name}" />
+    <property name="TIMEZONE"
+        value="${service.timezone:-${TIMEZONE}}" />
+    <!-- Example for logging into the build folder of your project -->
+    <property name="LOG_FILE" value="${springAppName}" />
+    <property name="LOG_PATH" value="../logs" />
+    <property name="LOG_HISTORY" value="7" />
+    <!-- You can override this to have a custom pattern -->
+    <property name="CONSOLE_LOG_PATTERN"
+        value="[%date{yyyy-MM-dd'T'HH:mm:ss.SSS,${TIMEZONE}}] [%X{jobId},%X{executionId}] [%thread] %-5level [%F:%L]  %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+    <property name="FILE_LOG_PATTERN"
+        value="[%date{yyyy-MM-dd'T'HH:mm:ss.SSS,${TIMEZONE}}] [%X{jobId},%X{executionId}] [%thread] %-5level [%F:%L]  %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+    <!-- Appender to log to console -->
+    <appender name="console"
+        class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <!-- Minimum logging level to be presented in the console logs -->
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!-- Appender to log to file -->
+    <appender name="flatfile"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/${LOG_FILE}.log</file>
+        <encoder
+            class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy
+            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_PATH}/${LOG_FILE}.%d{yyyy-MM-dd}.log.gz
+            </fileNamePattern>
+            <maxHistory>${LOG_HISTORY}</maxHistory>
+        </rollingPolicy>
+    </appender>
+    <root level="DEBUG">
+        <appender-ref ref="console" />
+        <appender-ref ref="flatfile" />
+    </root>
+</configuration>
