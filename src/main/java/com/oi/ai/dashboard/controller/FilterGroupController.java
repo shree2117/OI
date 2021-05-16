@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.oi.ai.dashboard.model.FilterGroup;
 import com.oi.ai.dashboard.service.FilterGroupService;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @RestController
 public class FilterGroupController {
@@ -50,5 +53,11 @@ public class FilterGroupController {
 		 filterGroupService.delete(userName, groupName);
 
 	}
+	@PutMapping("/filterGroups/{groupName}")
+	private FilterGroup updateFilterGroup(@RequestBody FilterGroup filterGroup,
+			@RequestParam(value = "userName", required = true) String userName,
+			@PathVariable(value = "groupName", required = true) String groupName) {
+			return filterGroupService.updateGroup(filterGroup, userName, groupName); }
+
 
 }

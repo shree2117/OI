@@ -42,5 +42,18 @@ public class FilterGroupService {
 			filterGroupRepository.deleteById(filterGroup.getId());
 		}
 	}
+	public FilterGroup updateGroup(FilterGroup filterGroup, String userName,
+String groupName) {
+FilterGroup filterGroupTemp = filterGroupRepository
+.findByUserNameAndGroupName(userName, groupName);
+if (filterGroupTemp == null) {
+throw new EntityNotFoundException();
+} else {
+filterGroup.setId(filterGroupTemp.getId());
+filterGroupRepository.save(filterGroup);
+return filterGroup;
+}
+}
+
 
 }

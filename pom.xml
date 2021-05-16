@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>ai-dashboard-service</artifactId>
@@ -23,9 +24,22 @@
 		<ojdbc.version>1.0</ojdbc.version>
 		<commons.io.version>2.5</commons.io.version>
 		<name>ai-dashboard-service</name>
+		<lombok.version>1.18.4</lombok.version>
+		<ch.qos.logback.version>1.2.3</ch.qos.logback.version>
 	</properties>
-	<dependencies>
+	<dependencyManagement>
+                 <dependencies>
+                          <dependency>
+                                   <groupId>org.springframework.cloud</groupId>
+                                   <artifactId>spring-cloud-dependencies</artifactId>
+                                   <version>${spring-cloud.version}</version>
+                                   <type>pom</type>
+                                   <scope>import</scope>
+                          </dependency>
+                 </dependencies>
+         </dependencyManagement>
 
+	<dependencies>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-dependencies</artifactId>
@@ -37,19 +51,23 @@
 
 		<!-- LOGGING DEPENDENCIES -->
 		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.logstash.logback</groupId>
-			<artifactId>logstash-logback-encoder</artifactId>
-			<version>${logback-stash-encoder.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
-		</dependency>
+                          <groupId>org.slf4j</groupId>
+                          <artifactId>slf4j-api</artifactId>
+                 </dependency>
+                 <dependency>
+                          <groupId>ch.qos.logback</groupId>
+                          <artifactId>logback-core</artifactId>
+                 </dependency>
+                 <dependency>
+                          <groupId>net.logstash.logback</groupId>
+                          <artifactId>logstash-logback-encoder</artifactId>
+                          <version>5.0</version>
+                 </dependency>
+                 <dependency>
+                          <groupId>org.springframework.cloud</groupId>
+                          <artifactId>spring-cloud-starter-sleuth</artifactId>
+                 </dependency>
+
 
 		<!-- DATABASE DEPENDENCIES -->
 		<dependency>
@@ -82,9 +100,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>provided</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -113,10 +129,8 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId> spring-boot-starter-actuator</artifactId>
-		</dependency>
+
+
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}-${project.version}</finalName>
